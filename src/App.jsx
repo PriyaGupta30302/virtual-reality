@@ -1,6 +1,6 @@
 // App.jsx
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Header from './components/Header';
 import FeatureSection from './components/FeatureSection';
@@ -14,26 +14,36 @@ import CreateAccount from './components/CreateAccount';
 
 const App = () => {
   return (
-    
     <Router>
-      <Navbar />
-     
+      <AppContent />
+    </Router>
+  );
+};
+
+const AppContent = () => {
+  const location = useLocation();
+  const hideNavbarPaths = ['/signin', '/create-account'];
+  const shouldDisplayNavbar = !hideNavbarPaths.includes(location.pathname);
+
+  return (
+    <>
+      {shouldDisplayNavbar && <Navbar />}
       <div id="top" className="max-w-7xl mx-auto pt-20 px-6">
         <Routes>
           <Route path="/" element={
             <>
               <HeroSection />
               <section id="Features">
-              <FeatureSection />
+                <FeatureSection />
               </section>
               <section id="Workflow">
-              <Workflow />
+                <Workflow />
               </section>
               <section id="Pricing">
-              <Pricing />
+                <Pricing />
               </section>
               <section id="Testimonials">
-              <Testimonials />
+                <Testimonials />
               </section>
               <Footer />
             </>
@@ -42,9 +52,7 @@ const App = () => {
           <Route path="/create-account" element={<CreateAccount />} />
         </Routes>
       </div>
-      
-    </Router>
-     
+    </>
   );
 };
 
